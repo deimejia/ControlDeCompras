@@ -14,6 +14,18 @@ const dateYear = document.getElementById("dateYear");
 //
 const tasksContainer = document.getElementById("tasksContainer");
 const product = document.getElementsByName("taskText");
+const clearAllButton = document.getElementById("clearAll");
+
+const resetAll = function resetPage() {
+  localStorage.clear();
+  location.reload();
+};
+
+clearAllButton.addEventListener("click", resetAll);
+//
+//
+let arrayProducto = [];
+const done = [];
 
 //
 //
@@ -33,10 +45,6 @@ const setDate = () => {
   dateMonth.textContent = date.toLocaleString("es", { month: "short" });
   dateYear.textContent = date.toLocaleString("es", { year: "numeric" });
 };
-
-let arrayProducto = [];
-
-const done = [];
 
 //CONVERTIR MONTO A MONTO CON SEPARADOR DE MILES
 const FormatAmount = function Amount(event) {
@@ -72,56 +80,46 @@ const FormatAmount = function Amount(event) {
 
 // USO DEL OPERADOR ? : PARA CONDICIONAR Y BRINDAR TRUE Y FALSE
 //https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Expressions_and_Operators#operador_condicional_ternario
+const reOrderArray = (event) => {
+  const contentProductValueT =
+    event.target.parentNode.childNodes[0].textContent;
+  const objChangeProductT = arrayProducto.findIndex(
+    (e) => e.productValue === contentProductValueT
+  );
 
+  const removeProducts = arrayProducto.splice(objChangeProductT, 1);
+
+  introToDone = done.concat(removeProducts);
+};
 // SE AGREGA LA CLASS DONE PARA DIFERENCIAS LA TAREA HECHA
+
+//
 const changeTaskState = (event) => {
-  event.target.parentNode.classList.add("done");
+  reOrderArray(event);
+  const popo = event.target.parentNode;
+  printProduct();
+  console.log(popo);
+  syncStorage();
 };
 // SE TOMAN LOS CHILDREN QUE TIENE CLASE DONE Y SE AGRUPAN EN UN ARRAY
 
-const order = () => {
-  tasksContainer.childNodes.forEach((el) => {
-    if (el.classList.contains("done")) {
-      done.push(el);
-    }
-  });
-  return [...done];
-};
-
 // se ejecuta el evento del boton ordenar compras, el cual toma el array de productos
 //en DONE y los envía al append del contenedor de productos
-const renderOrderedTasks = () => {
-  order().forEach((el) => tasksContainer.appendChild(el));
-};
+// const renderOrderedTasks = () => {
+//   order().forEach((el) => tasksContainer.appendChild(el));
+// };
 //
-let arrayValuePrice;
+// let arrayValuePrice;
 //
 
 function changeValuePrice(event) {
   const contentProductValue = event.target.parentNode.childNodes[0].textContent;
-  console.log(contentProductValue);
-  // console.log(
-  //   event.target.parentNode.childNodes[0].textContent +
-  //     " PRODUCTO PRODUCTOPRODUCTO"
-  // );
-  // tasksContainer.childNodes.forEach((bichi) => {
-  // if (
-  //   bichi.classList.contains(
-  //     "updateInputContent" +
-  //       `${event.target.parentNode.childNodes[0].textContent}`
-  //   )
-  // ) {
-  // console.log("todas las clases " + event.target.parentNode.classList);
   const objChangePrice = arrayProducto.findIndex(
     (e) => e.productValue === contentProductValue
   );
-  // console.log(objChangePrice);
+  //
 
   const changePriceN = event.target.value;
-  // console.log(changePrice + " prueba");
-  // console.log(event.target.value + " PRECIO DEL BLUR DE NUEVO");
-  // console.log("hola hola");
-  // console.log(changePrice.replace(changePrice, changePriceN));
   arrayProducto.splice(objChangePrice, 1, {
     productValue: contentProductValue,
     priceValue: changePriceN,
@@ -131,50 +129,82 @@ function changeValuePrice(event) {
   // });
 }
 function BluerSavePrice(event) {
-  // console.log(event.target.parentNode.childNodes[0].textContent + " PRODUCTO");
-  // console.log(event.target.value + " PRECIO DEL BLUR");
-
-  // event.target.parentNode.classList.add(
-  //   "updateInputContent" +
-  //     `${event.target.parentNode.childNodes[0].textContent}`
-  // );
   changeValuePrice(event);
+  syncStorage();
 }
 
 // //
 function addProduct(productValue, priceValue) {
-  arrayProducto.unshift({ productValue, priceValue });
+  arrayProducto.push({ productValue, priceValue });
 }
+//
+//
 
-function printProduct(product) {
-  const divInLine = document.createElement("div");
-  divInLine.setAttribute("id", "called");
-  divInLine.setAttribute("style", "display: flex");
-  tasksContainer.prepend(divInLine);
-  //
-  const task = document.createElement("div");
-  task.classList.add("task", "roundBorder");
+//
+//
+function printProduct() {
+  tasksContainer.innerHTML = "";
+  arrayProducto.forEach(function print(p) {
+    const divInLine = document.createElement("div");
+    divInLine.setAttribute("id", "called");
+    divInLine.setAttribute("style", "display: flex");
 
-  task.textContent = product;
-  //
-  const priceIntro = document.createElement("input");
-  priceIntro.classList.add("formatee", "valuePrice");
-  const valor = (priceIntro.value = "0");
-  arrayValuePrice = valor;
-  priceIntro.setAttribute("onpaste", "return false");
-  priceIntro.setAttribute("placeholder", "¿Agregas el precio?");
-  priceIntro.addEventListener("keydown", FormatAmount);
-  priceIntro.addEventListener("blur", BluerSavePrice);
-  //
-  const buttonDone = document.createElement("button");
-  buttonDone.addEventListener("click", changeTaskState);
+    //
+    const task = document.createElement("div");
+    task.classList.add("task", "roundBorder");
+    task.textContent = p.productValue;
 
-  //
-  divInLine.prepend(buttonDone);
-  divInLine.prepend(priceIntro);
-  divInLine.prepend(task);
+    //
+    const priceIntro = document.createElement("input");
+    priceIntro.classList.add("formatee", "valuePrice");
+    // const valor = (priceIntro.value = "0");
+    // arrayValuePrice = valor;
+    priceIntro.setAttribute("onpaste", "return false");
+    priceIntro.setAttribute("placeholder", "¿Agregas el precio?");
+    priceIntro.addEventListener("keydown", FormatAmount);
+    priceIntro.addEventListener("blur", BluerSavePrice);
+    priceIntro.value = p.priceValue;
 
+    //
+    const buttonDone = document.createElement("button");
+    buttonDone.addEventListener("click", changeTaskState);
+
+    divInLine.prepend(buttonDone);
+    divInLine.prepend(priceIntro);
+    divInLine.prepend(task);
+    tasksContainer.append(divInLine);
+  });
   //
+  arrayProducto.forEach(function print(p) {
+    const divInLine = document.createElement("div");
+    divInLine.setAttribute("id", "called");
+    divInLine.setAttribute("style", "display: flex");
+
+    //
+    const task = document.createElement("div");
+    task.classList.add("task", "roundBorder");
+    task.textContent = p.productValue;
+
+    //
+    const priceIntro = document.createElement("input");
+    priceIntro.classList.add("formatee", "valuePrice");
+    // const valor = (priceIntro.value = "0");
+    // arrayValuePrice = valor;
+    priceIntro.setAttribute("onpaste", "return false");
+    priceIntro.setAttribute("placeholder", "¿Agregas el precio?");
+    priceIntro.addEventListener("keydown", FormatAmount);
+    priceIntro.addEventListener("blur", BluerSavePrice);
+    priceIntro.value = p.priceValue;
+
+    //
+    const buttonDone = document.createElement("button");
+    buttonDone.addEventListener("click", changeTaskState);
+
+    divInLine.prepend(buttonDone);
+    divInLine.prepend(priceIntro);
+    divInLine.prepend(task);
+    tasksContainer.append(divInLine);
+  });
 }
 
 //
@@ -182,9 +212,9 @@ const addNewTask = (event) => {
   event.preventDefault();
   const { value } = event.target.taskText;
   if (!value) return;
-
+  addProduct(value, "");
   printProduct(value);
-  addProduct(value, arrayValuePrice);
+  syncStorage();
   // console.log(arrayValuePrice + " DEBERIA INDICARSE PRECIO");
   //
 
@@ -194,7 +224,24 @@ const addNewTask = (event) => {
   event.target.reset();
 };
 //
+function syncStorage() {
+  console.log("sincronizador");
+  localStorage.setItem("saveproducts", JSON.stringify(arrayProducto));
+}
 
+function readStorage() {
+  const arrayInJson = localStorage.getItem("saveproducts");
+  const productsLocalForArray = JSON.parse(arrayInJson);
+  if (productsLocalForArray != null) {
+    arrayProducto = arrayProducto.concat(productsLocalForArray);
+    printProduct();
+  } else
+    console.log(
+      "No se concatena porque el local storage es " + productsLocalForArray
+    );
+}
 //
 
+//
+readStorage();
 setDate();
