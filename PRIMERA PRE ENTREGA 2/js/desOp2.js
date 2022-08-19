@@ -25,7 +25,7 @@ clearAllButton.addEventListener("click", resetAll);
 //
 //
 let arrayProducto = [];
-const done = [];
+let done = [];
 
 //
 //
@@ -89,17 +89,20 @@ const reOrderArray = (event) => {
 
   const removeProducts = arrayProducto.splice(objChangeProductT, 1);
 
-  introToDone = done.concat(removeProducts);
+  done = done.concat(removeProducts);
 };
 // SE AGREGA LA CLASS DONE PARA DIFERENCIAS LA TAREA HECHA
 
 //
 const changeTaskState = (event) => {
-  reOrderArray(event);
-  const popo = event.target.parentNode;
-  printProduct();
-  console.log(popo);
-  syncStorage();
+  const filterDone = event.target.parentNode.classList.contains("done");
+  if (!filterDone) {
+    reOrderArray(event);
+    const popo = event.target.parentNode;
+    printProduct();
+    console.log(popo);
+    syncStorage();
+  }
 };
 // SE TOMAN LOS CHILDREN QUE TIENE CLASE DONE Y SE AGRUPAN EN UN ARRAY
 
@@ -175,8 +178,9 @@ function printProduct() {
     tasksContainer.append(divInLine);
   });
   //
-  arrayProducto.forEach(function print(p) {
+  done.forEach(function print(p) {
     const divInLine = document.createElement("div");
+    divInLine.classList.add("done");
     divInLine.setAttribute("id", "called");
     divInLine.setAttribute("style", "display: flex");
 
@@ -198,6 +202,7 @@ function printProduct() {
 
     //
     const buttonDone = document.createElement("button");
+
     buttonDone.addEventListener("click", changeTaskState);
 
     divInLine.prepend(buttonDone);
@@ -227,13 +232,19 @@ const addNewTask = (event) => {
 function syncStorage() {
   console.log("sincronizador");
   localStorage.setItem("saveproducts", JSON.stringify(arrayProducto));
+  localStorage.setItem("saveproductsdone", JSON.stringify(done));
 }
 
 function readStorage() {
   const arrayInJson = localStorage.getItem("saveproducts");
   const productsLocalForArray = JSON.parse(arrayInJson);
-  if (productsLocalForArray != null) {
+  const arrayDoneInJson = localStorage.getItem("saveproductsdone");
+  const productsDoneLocalForArray = JSON.parse(arrayDoneInJson);
+
+  if (productsLocalForArray != null && productsDoneLocalForArray != null) {
     arrayProducto = arrayProducto.concat(productsLocalForArray);
+    done = done.concat(productsDoneLocalForArray);
+
     printProduct();
   } else
     console.log(
