@@ -211,13 +211,20 @@ function printProduct() {
     tasksContainer.append(divInLine);
   });
 }
-
+function alertMensageFetchConsejos() {
+  fetch("/data/consejos.json")
+    .then((res) => res.json())
+    .then((data) => {
+      alert(data);
+    });
+}
 //
 const addNewTask = (event) => {
   event.preventDefault();
   const { value } = event.target.taskText;
   if (!value) return;
   addProduct(value, "");
+  alertMensageFetchConsejos();
   printProduct(value);
   syncStorage();
   // console.log(arrayValuePrice + " DEBERIA INDICARSE PRECIO");
