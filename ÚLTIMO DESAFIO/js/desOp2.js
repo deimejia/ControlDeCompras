@@ -15,6 +15,7 @@ const dateYear = document.getElementById("dateYear");
 const tasksContainer = document.getElementById("tasksContainer");
 const product = document.getElementsByName("taskText");
 const clearAllButton = document.getElementById("clearAll");
+const totalAmount = document.getElementById("totalAmount");
 
 const resetAll = function resetPage() {
   localStorage.clear();
@@ -83,14 +84,15 @@ const FormatAmount = function Amount(event) {
 const reOrderArray = (event) => {
   const contentProductValueT =
     event.target.parentNode.childNodes[0].textContent;
+
   const objChangeProductT = arrayProducto.findIndex(
     (e) => e.productValue === contentProductValueT
   );
 
   const removeProducts = arrayProducto.splice(objChangeProductT, 1);
-
   done = done.concat(removeProducts);
 };
+
 // SE AGREGA LA CLASS DONE PARA DIFERENCIAS LA TAREA HECHA
 
 //
@@ -117,27 +119,40 @@ const changeTaskState = (event) => {
 
 function changeValuePrice(event) {
   const contentProductValue = event.target.parentNode.childNodes[0].textContent;
-  const objChangePrice = arrayProducto.findIndex(
+
+  const objChangePriceArrayProduct = arrayProducto.findIndex(
+    (e) => e.productValue === contentProductValue
+  );
+  const objChangePriceArrayDone = done.findIndex(
     (e) => e.productValue === contentProductValue
   );
   //
-
   const changePriceN = event.target.value;
-  arrayProducto.splice(objChangePrice, 1, {
-    productValue: contentProductValue,
-    priceValue: changePriceN,
-  });
+
+  if (objChangePriceArrayProduct != -1) {
+    arrayProducto.splice(objChangePriceArrayProduct, 1, {
+      productValue: contentProductValue,
+      priceValue: changePriceN,
+    });
+  } else {
+    done.splice(objChangePriceArrayDone, 1, {
+      productValue: contentProductValue,
+      priceValue: changePriceN,
+    });
+  }
   // console.log(changePrice);
   // }
   // });
 }
+
 function BluerSavePrice(event) {
   changeValuePrice(event);
   syncStorage();
+  addPrices();
 }
 
 // //
-function addProduct(productValue, priceValue) {
+function addArrayProduct(productValue, priceValue) {
   arrayProducto.push({ productValue, priceValue });
 }
 //
@@ -171,6 +186,7 @@ function printProduct() {
     //
     const buttonDone = document.createElement("button");
     buttonDone.addEventListener("click", changeTaskState);
+    buttonDone.classList.add("bontonDone");
 
     divInLine.prepend(buttonDone);
     divInLine.prepend(priceIntro);
@@ -202,7 +218,6 @@ function printProduct() {
 
     //
     const buttonDone = document.createElement("button");
-
     buttonDone.addEventListener("click", changeTaskState);
 
     divInLine.prepend(buttonDone);
@@ -211,20 +226,14 @@ function printProduct() {
     tasksContainer.append(divInLine);
   });
 }
-function alertMensageFetchConsejos() {
-  fetch("/data/consejos.json")
-    .then((res) => res.json())
-    .then((data) => {
-      alert(data);
-    });
-}
+
 //
 const addNewTask = (event) => {
   event.preventDefault();
   const { value } = event.target.taskText;
   if (!value) return;
-  addProduct(value, "");
-  alertMensageFetchConsejos();
+  addArrayProduct(value, "");
+
   printProduct(value);
   syncStorage();
   // console.log(arrayValuePrice + " DEBERIA INDICARSE PRECIO");
@@ -259,7 +268,67 @@ function readStorage() {
     );
 }
 //
+function alertMensageFetchConsejos() {
+  fetch("/data/consejos.json")
+    .then((res) => res.json())
+    .then((data) => {
+      createModal(data);
+    });
+}
+//
+function createModal(params) {
+  const modal = document.createElement("dialog");
+  const btnCerrarModal = document.createElement("button");
+  btnCerrarModal.setAttribute("type", "button");
+  btnCerrarModal.innerText = "Entendido";
+  btnCerrarModal.addEventListener("click", () => {
+    modal.close();
+  });
+  const divConsejos = document.createElement("div");
+  params.forEach((c) => {
+    const consejo = document.createElement("p");
+    consejo.style.listStyle = "none";
+    consejo.innerText = c;
+    divConsejos.appendChild(consejo);
+  });
+  document.body.appendChild(modal);
+  modal.appendChild(divConsejos);
+  modal.appendChild(btnCerrarModal);
+  modal.showModal();
+}
+//
+
+function addPrices() {
+  let sumaListaTotal = 0;
+  // arrayProducto.forEach((e) => {
+  //   if (e.priceValue !== "") {
+  //     var AmountSinComas = e.priceValue.replace(/[,]/g, "");
+  //     var wholeNumbers = parseInt(AmountSinComas);
+  //     sumaListaTotal += wholeNumbers;
+  //   }
+  // });
+
+  if (e.priceValue !== "") {
+    var AmountSinComas = e.priceValue.replace(/[,]/g, "");
+    var wholeNumbers = parseInt(AmountSinComas);
+    sumaListaTotal += wholeNumbers;
+  }
+
+  const amountTotalAddPrices =
+    "₡ " +
+    Intl.NumberFormat("en-CR", { maximumFractionDigits: 0 }).format(
+      sumaListaTotal
+    );
+
+  console.log(amountTotalAddPrices + " total de precios");
+  return (totalAmount.textContent = amountTotalAddPrices);
+
+  // FUENTE DE INFORMACIÓN PARA MONEDAS POR PAIS https://www.codeproject.com/Articles/78175/International-Number-Formats
+}
 
 //
+
+alertMensageFetchConsejos();
+
 readStorage();
 setDate();
