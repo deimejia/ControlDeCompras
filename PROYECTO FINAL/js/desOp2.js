@@ -261,7 +261,9 @@ function readStorage() {
 }
 //
 function alertMensageFetchConsejos() {
-  fetch("/data/consejos.json")
+  fetch("data/consejos.json", {
+    mode: "no-cors",
+  })
     .then((res) => res.json())
     .then((data) => {
       createModal(data);
