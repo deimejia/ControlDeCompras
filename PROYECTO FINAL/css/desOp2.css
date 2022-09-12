@@ -1,0 +1,313 @@
+:root {
+  --primary: #06aed5;
+  --secondary: #dd1c1a;
+  --light: rgb(240, 200, 008);
+  --dark: rgb(86, 86, 86);
+  --dark2: rgba(86, 86, 86, 0.552);
+  --diabled: #f8f5ed;
+  --inputfond: #f1f1f1;
+}
+
+body {
+  font-family: "Oswald", sans-serif;
+
+  margin: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  padding: 0;
+  background-color: var(--diabled);
+}
+
+/* *:first-letter {
+  text-transform: capitalize;
+} */
+
+.roundBorder {
+  border-radius: 12px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 10%;
+  padding: 25px;
+  background-color: var(--light);
+
+  min-height: 70vh;
+}
+
+.linea1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: -1.9vw;
+  justify-content: space-between;
+}
+
+.linea2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.miLista {
+  font-weight: 300;
+  width: 50%;
+  font-size: 4vw;
+  padding: 0px;
+  margin: 0px;
+}
+
+.clearAll {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2.5vw;
+  text-align: center;
+  width: fit-content;
+  padding: 0.5vw 3vw 0.5vw 3vw;
+  height: fit-content;
+  cursor: pointer;
+  background: var(--light);
+  border-radius: 12px;
+  box-shadow: 0.5vw 0.5vw 1vw rgb(176, 148, 5),
+    -1vw -0.4vw 15vw rgb(255, 213, 0),
+    inset 0.3vw -0.3vw 1.6vw rgb(243, 219, 96);
+  transition: all 0.5s ease;
+  border: none;
+
+  color: var(--dark2);
+}
+/* .clearAll:hover {
+  box-shadow: none;
+  box-shadow: 0.5vw 0.5vw 1vw rgb(255, 213, 0),
+    -1vw -0.4vw 1.6vw rgb(176, 148, 5),
+    inset -1vw -0.4vw 1.6vw rgb(253, 218, 43);
+}
+.clearAll:active {
+  box-shadow: none;
+} */
+
+.date {
+  margin-top: 0vw;
+  display: flex;
+}
+
+.dateblock {
+  display: flex;
+  flex-direction: row;
+}
+
+#dateText {
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 3.7vw;
+}
+
+#dateNumber {
+  font-size: 3.7vw;
+  margin-left: 0.5vw;
+}
+
+#dateNumber,
+#dateText {
+  font-weight: bold;
+}
+.monthYearFormat {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5vw;
+  margin-top: 0vw;
+}
+
+#dateMonth,
+#dateYear {
+  margin-bottom: -0.7vw;
+  font-size: 1.9vw;
+  font-weight: bold;
+}
+
+#espacio1 {
+  height: 4vw;
+}
+
+#totalAmount {
+  width: fit-content;
+  height: fit-content;
+  padding: 0.5vw 3vw 0.5vw 3vw;
+  width: 65;
+  max-width: 60vw;
+  font-size: 3vw;
+
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  border: none;
+  color: var(--primary);
+}
+
+#espacio2 {
+  height: 4vw;
+}
+
+#espacio3 {
+  height: 5vw;
+}
+
+form {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 72.5% 22.5%;
+  grid-column-gap: 5%;
+}
+
+.inputProduct {
+  border: none;
+  padding: 1.3vw 0vw 1.3vw 3vw;
+  background-color: var(--inputfond);
+  font-size: 2.5vw;
+  color: var(--dark);
+}
+.inputProduct::placeholder {
+  color: rgb(38, 38, 38, 0.2);
+  font-size: 2.7vw;
+}
+
+.inputProduct:focus {
+  outline: none;
+}
+
+.addTaskButton {
+  text-align: center;
+  padding: 1vw;
+  font-size: 3vw;
+  cursor: pointer;
+  background-color: var(--primary);
+  color: var(--diabled);
+  border-radius: 12px;
+  box-shadow: 0.5vw 0.5vw 1vw rgb(176, 148, 5),
+    -1vw -0.4vw 1.6vw rgb(255, 213, 0), inset 0.2vw -1vw 2vw #057a95;
+  transition: all 0.5s ease;
+  /* border: 2px solid var(--primary); */
+  border: none;
+}
+#tasksContainer {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#formatlinePodructs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 4vw;
+}
+
+.task {
+  text-align: center;
+  width: 35vw;
+  background-color: var(--primary);
+  padding: 1.3vw;
+  color: var(--diabled);
+
+  font-size: 2.7vw;
+}
+
+.inputFormat {
+  text-align: center;
+  width: 12vw;
+  max-height: 3vw;
+  border-radius: 25px;
+  background-color: var(--diabled);
+  padding: 1.3vw;
+
+  color: var(--light);
+
+  border: none;
+  font-size: 2.7vw;
+}
+
+.inputFormat::placeholder {
+  color: rgb(38, 38, 38, 0.2);
+  font-size: 2.7vw;
+}
+
+.inputFormat:focus {
+  outline: none;
+}
+
+.bontonDone {
+  font-weight: bolder;
+  width: 9vw;
+  max-height: 5.9vw;
+  text-align: center;
+  border: none;
+  padding: 0vw 2.3vw 0vw 2.3vw;
+  cursor: pointer;
+  border-radius: 80vw;
+  font-size: 1.7vw;
+  background-color: var(--diabled);
+  color: var(--dark2);
+
+  box-shadow: 0.5vw 0.5vw 1vw rgb(176, 148, 5),
+    -1vw -0.4vw 1.6vw rgb(255, 213, 0), inset 0.2vw -1vw 2vw #cbcbcb;
+  transition: all 0.5s ease;
+  /* border: 2px solid var(--primary); */
+  border: none;
+}
+
+.productDone {
+  background-color: rgb(144, 142, 142);
+  color: #f9f5ed8b;
+}
+
+.productDone::placeholder {
+  color: #f9f5ed8b;
+  font-size: 2.7vw;
+}
+.bottonInDone {
+  box-shadow: none;
+}
+
+dialog {
+  padding: 5vw;
+
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  max-width: 60vw;
+
+  max-height: 70%;
+  border: none;
+  font-size: 3.5vw;
+  border-radius: 10px;
+  color: var(--dark);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.455);
+}
+
+/* .formatConsejo {
+  padding: 1vh;
+  margin-top: 1vh;
+  background-color: #ffffff;
+  box-shadow: 0.5vw 0.5vw 1vw rgb(232, 229, 229);
+  border: 2px solid --primary;
+  border-radius: 15px;
+} */
+
+.formatButtonModal {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1vw;
+  border-radius: 12px;
+  border: none;
+  width: 100%;
+  height: 10vw;
+  font-size: 4vw;
+  background: transparent;
+
+  box-shadow: 0.5vw 0.5vw 1vw rgb(220, 220, 220),
+    -1vw -0.4vw 15vw rgb(248, 248, 248),
+    inset 0.3vw -0.3vw 1.6vw rgb(202, 202, 202);
+  transition: all 0.5s ease;
+
+  color: var(--dark2);
+}

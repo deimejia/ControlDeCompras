@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/desOp2.css" />
+    <script src="js/fetchlocal.js" type="text/javascript" defer></script>
+    <script src="js/desOp2.js" type="text/javascript" defer></script>
+  </head>
+  <body>
+    <div class="list roundBorder">
+      <div class="linea1">
+        <h1 class="miLista">Mis compras</h1>
+        <button
+          class="clearAll"
+          id="clearAll"
+          type="button"
+          class="clearButton"
+        >
+          limpiar
+        </button>
+      </div>
+      <div class="linea2 roundBorder">
+        <div class="date">
+          <div class="dateblock">
+            <div id="dateText"></div>
+            <div id="dateNumber"></div>
+            <div class="monthYearFormat">
+              <div id="dateMonth"></div>
+              <div id="dateYear"></div>
+            </div>
+          </div>
+        </div>
+        <div id="espacio1"></div>
+        <div id="totalAmount">Total ₡ 0</div>
+        <div id="espacio2"></div>
+        <form onsubmit="addNewTask(event)">
+          <input
+            type="text"
+            name="taskText"
+            autocomplete="off"
+            placeholder="Nombre de producto"
+            class="roundBorder inputProduct"
+          />
+          <button type="submit" class="addTaskButton">+</button>
+        </form>
+        <div id="espacio3"></div>
+
+        <div id="tasksContainer"></div>
+      </div>
+    </div>
+  </body>
+</html>

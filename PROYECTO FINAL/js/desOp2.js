@@ -106,16 +106,6 @@ const changeTaskState = (event) => {
     syncStorage();
   }
 };
-// SE TOMAN LOS CHILDREN QUE TIENE CLASE DONE Y SE AGRUPAN EN UN ARRAY
-
-// se ejecuta el evento del boton ordenar compras, el cual toma el array de productos
-//en DONE y los envía al append del contenedor de productos
-// const renderOrderedTasks = () => {
-//   order().forEach((el) => tasksContainer.appendChild(el));
-// };
-//
-// let arrayValuePrice;
-//
 
 function changeValuePrice(event) {
   const contentProductValue = event.target.parentNode.childNodes[0].textContent;
@@ -164,8 +154,7 @@ function printProduct() {
   tasksContainer.innerHTML = "";
   arrayProducto.forEach(function print(p) {
     const divInLine = document.createElement("div");
-    divInLine.setAttribute("id", "called");
-    divInLine.setAttribute("style", "display: flex");
+    divInLine.setAttribute("id", "formatlinePodructs");
 
     //
     const task = document.createElement("div");
@@ -174,11 +163,11 @@ function printProduct() {
 
     //
     const priceIntro = document.createElement("input");
-    priceIntro.classList.add("formatee", "valuePrice");
+    priceIntro.classList.add("inputFormat", "valuePrice");
     // const valor = (priceIntro.value = "0");
     // arrayValuePrice = valor;
     priceIntro.setAttribute("onpaste", "return false");
-    priceIntro.setAttribute("placeholder", "¿Agregas el precio?");
+    priceIntro.setAttribute("placeholder", "Precio");
     priceIntro.addEventListener("keydown", FormatAmount);
     priceIntro.addEventListener("blur", BluerSavePrice);
     priceIntro.value = p.priceValue;
@@ -186,6 +175,7 @@ function printProduct() {
     //
     const buttonDone = document.createElement("button");
     buttonDone.addEventListener("click", changeTaskState);
+    buttonDone.textContent = "✓";
     buttonDone.classList.add("bontonDone");
 
     divInLine.prepend(buttonDone);
@@ -197,21 +187,21 @@ function printProduct() {
   done.forEach(function print(p) {
     const divInLine = document.createElement("div");
     divInLine.classList.add("done");
-    divInLine.setAttribute("id", "called");
+    divInLine.setAttribute("id", "formatlinePodructs");
     divInLine.setAttribute("style", "display: flex");
 
     //
     const task = document.createElement("div");
-    task.classList.add("task", "roundBorder");
+    task.classList.add("task", "roundBorder", "productDone");
     task.textContent = p.productValue;
 
     //
     const priceIntro = document.createElement("input");
-    priceIntro.classList.add("formatee", "valuePrice");
+    priceIntro.classList.add("inputFormat", "valuePrice", "productDone");
     // const valor = (priceIntro.value = "0");
     // arrayValuePrice = valor;
     priceIntro.setAttribute("onpaste", "return false");
-    priceIntro.setAttribute("placeholder", "¿Agregas el precio?");
+    priceIntro.setAttribute("placeholder", "Precio");
     priceIntro.addEventListener("keydown", FormatAmount);
     priceIntro.addEventListener("blur", BluerSavePrice);
     priceIntro.value = p.priceValue;
@@ -219,7 +209,8 @@ function printProduct() {
     //
     const buttonDone = document.createElement("button");
     buttonDone.addEventListener("click", changeTaskState);
-
+    buttonDone.classList.add("bontonDone", "productDone", "bottonInDone");
+    buttonDone.textContent = "✓✓";
     divInLine.prepend(buttonDone);
     divInLine.prepend(priceIntro);
     divInLine.prepend(task);
@@ -262,6 +253,7 @@ function readStorage() {
     done = done.concat(productsDoneLocalForArray);
 
     printProduct();
+    addPrices();
   } else
     console.log(
       "No se concatena porque el local storage es " + productsLocalForArray
@@ -279,14 +271,16 @@ function alertMensageFetchConsejos() {
 function createModal(params) {
   const modal = document.createElement("dialog");
   const btnCerrarModal = document.createElement("button");
+  btnCerrarModal.classList.add("formatButtonModal");
   btnCerrarModal.setAttribute("type", "button");
-  btnCerrarModal.innerText = "Entendido";
+  btnCerrarModal.innerText = "entendido";
   btnCerrarModal.addEventListener("click", () => {
     modal.close();
   });
   const divConsejos = document.createElement("div");
   params.forEach((c) => {
     const consejo = document.createElement("p");
+    consejo.classList.add("formatConsejo");
     consejo.style.listStyle = "none";
     consejo.innerText = c;
     divConsejos.appendChild(consejo);
@@ -300,27 +294,31 @@ function createModal(params) {
 
 function addPrices() {
   let sumaListaTotal = 0;
-  // arrayProducto.forEach((e) => {
-  //   if (e.priceValue !== "") {
-  //     var AmountSinComas = e.priceValue.replace(/[,]/g, "");
-  //     var wholeNumbers = parseInt(AmountSinComas);
-  //     sumaListaTotal += wholeNumbers;
-  //   }
-  // });
 
-  if (e.priceValue !== "") {
-    var AmountSinComas = e.priceValue.replace(/[,]/g, "");
-    var wholeNumbers = parseInt(AmountSinComas);
-    sumaListaTotal += wholeNumbers;
-  }
+  arrayProducto.forEach((e) => {
+    if (e.priceValue !== "") {
+      var AmountSinComas = e.priceValue.replace(/[,]/g, "");
+      var wholeNumbers = parseInt(AmountSinComas);
+      sumaListaTotal += wholeNumbers;
+      console.log(e.priceValue);
+    }
+  });
+
+  done.forEach((e) => {
+    if (e.priceValue !== "") {
+      var AmountSinComas = e.priceValue.replace(/[,]/g, "");
+      var wholeNumbers = parseInt(AmountSinComas);
+      sumaListaTotal += wholeNumbers;
+      console.log(e.priceValue);
+    }
+  });
 
   const amountTotalAddPrices =
-    "₡ " +
+    "Total ₡ " +
     Intl.NumberFormat("en-CR", { maximumFractionDigits: 0 }).format(
       sumaListaTotal
     );
 
-  console.log(amountTotalAddPrices + " total de precios");
   return (totalAmount.textContent = amountTotalAddPrices);
 
   // FUENTE DE INFORMACIÓN PARA MONEDAS POR PAIS https://www.codeproject.com/Articles/78175/International-Number-Formats
