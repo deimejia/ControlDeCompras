@@ -12,7 +12,7 @@ body {
   font-family: "Oswald", sans-serif;
 
   margin: 0;
-  min-height: 100vh;
+  min-height: 90vh;
   min-width: 100vw;
   padding: 0;
   background-color: var(--diabled);
@@ -29,7 +29,7 @@ body {
 .list {
   display: flex;
   flex-direction: column;
-  margin: 10%;
+  margin: 10% 5% 10% 5%;
   padding: 25px;
   background-color: var(--light);
 
@@ -59,7 +59,7 @@ body {
 
 .clearAll {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 2.5vw;
+  font-size: 3vw;
   text-align: center;
   width: fit-content;
   padding: 0.5vw 3vw 0.5vw 3vw;
@@ -135,8 +135,8 @@ body {
   width: 65;
   max-width: 60vw;
   font-size: 3vw;
-
-  background: rgba(255, 255, 255, 0.2);
+  letter-spacing: 2px;
+  background: var(--inputfond);
   border-radius: 12px;
   border: none;
   color: var(--primary);
@@ -161,12 +161,12 @@ form {
   border: none;
   padding: 1.3vw 0vw 1.3vw 3vw;
   background-color: var(--inputfond);
-  font-size: 2.5vw;
+  font-size: 3vw;
   color: var(--dark);
 }
 .inputProduct::placeholder {
   color: rgb(38, 38, 38, 0.2);
-  font-size: 2.7vw;
+  font-size: 3vw;
 }
 
 .inputProduct:focus {
@@ -201,32 +201,31 @@ form {
 }
 
 .task {
-  text-align: center;
-  width: 35vw;
+  width: 45vw;
   background-color: var(--primary);
   padding: 1.3vw;
   color: var(--diabled);
 
-  font-size: 2.7vw;
+  font-size: 3vw;
 }
 
 .inputFormat {
   text-align: center;
-  width: 12vw;
+  width: 15vw;
   max-height: 3vw;
   border-radius: 25px;
-  background-color: var(--diabled);
+  background-color: var(--inputfond);
   padding: 1.3vw;
 
-  color: var(--light);
+  color: var(--dark2);
 
   border: none;
-  font-size: 2.7vw;
+  font-size: 3vw;
 }
 
 .inputFormat::placeholder {
   color: rgb(38, 38, 38, 0.2);
-  font-size: 2.7vw;
+  font-size: 3vw;
 }
 
 .inputFormat:focus {
@@ -236,13 +235,13 @@ form {
 .bontonDone {
   font-weight: bolder;
   width: 9vw;
-  max-height: 5.9vw;
+  max-height: 5.5vw;
   text-align: center;
   border: none;
   padding: 0vw 2.3vw 0vw 2.3vw;
   cursor: pointer;
   border-radius: 80vw;
-  font-size: 1.7vw;
+  font-size: 2vw;
   background-color: var(--diabled);
   color: var(--dark2);
 
@@ -256,6 +255,7 @@ form {
 .productDone {
   background-color: rgb(144, 142, 142);
   color: #f9f5ed8b;
+  font-size: 3vw;
 }
 
 .productDone::placeholder {
@@ -264,6 +264,7 @@ form {
 }
 .bottonInDone {
   box-shadow: none;
+  font-size: 2vw;
 }
 
 dialog {
@@ -310,4 +311,12 @@ dialog::backdrop {
   transition: all 0.5s ease;
 
   color: var(--dark2);
+}
+
+.formatButtonModal:active {
+  border: none;
+}
+
+.formatButtonModal:focus-visible {
+  outline: none;
 }

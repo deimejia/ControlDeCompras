@@ -261,7 +261,9 @@ function readStorage() {
 }
 //
 function alertMensageFetchConsejos() {
-  fetch("/data/consejos.json")
+  fetch("data/consejos.json", {
+    mode: "no-cors",
+  })
     .then((res) => res.json())
     .then((data) => {
       createModal(data);
@@ -300,7 +302,7 @@ function addPrices() {
       var AmountSinComas = e.priceValue.replace(/[,]/g, "");
       var wholeNumbers = parseInt(AmountSinComas);
       sumaListaTotal += wholeNumbers;
-      console.log(e.priceValue);
+      console.log(e.priceValgitue);
     }
   });
 
@@ -327,6 +329,5 @@ function addPrices() {
 //
 
 alertMensageFetchConsejos();
-
 readStorage();
 setDate();
